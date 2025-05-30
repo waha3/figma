@@ -2,12 +2,13 @@ import {
   type JSXElement,
   type JSXOpeningElement,
   type JSXClosingElement,
+  type JSXAttributeOrSpread,
   type Identifier,
 } from "@swc/core";
 
-const identifier = (value: string): Identifier => ({
+export const identifier = (value: string): Identifier => ({
   type: "Identifier",
-  optional: true,
+  optional: false,
   value,
   span: {
     start: 0,
@@ -16,24 +17,28 @@ const identifier = (value: string): Identifier => ({
   },
 });
 
-const jsxOpeningElement: JSXOpeningElement = {
-  type: "JSXOpeningElement",
-  name: identifier("div"),
-  attributes: [],
-  selfClosing: false,
-  span: { start: 0, end: 0, ctxt: 0 },
+export const jsxOpeningElement = (value: string): JSXOpeningElement => {
+  return {
+    type: "JSXOpeningElement",
+    name: identifier(value),
+    attributes: [],
+    selfClosing: false,
+    span: { start: 0, end: 0, ctxt: 0 },
+  };
 };
 
-const jsxClosingElement: JSXClosingElement = {
-  type: "JSXClosingElement",
-  name: ident(node.type),
-  span: { start: 0, end: 0, ctxt: 0 },
+export const jsxClosingElement = (value: string): JSXClosingElement => {
+  return {
+    type: "JSXClosingElement",
+    name: identifier(value),
+    span: { start: 0, end: 0, ctxt: 0 },
+  };
 };
 
-const jsxElement: JSXElement = {
+export const jsxElement: JSXElement = {
   type: "JSXElement",
-  opening,
-  closing,
+  opening: jsxOpeningElement("div"),
+  closing: jsxClosingElement("div"),
   children: [],
   span: { start: 0, end: 0, ctxt: 0 },
 };

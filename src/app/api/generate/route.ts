@@ -4,12 +4,7 @@ import fs from "node:fs";
 import qs from "node:querystring";
 import prettier from "prettier";
 import getConfig from "next/config";
-import {
-  type JSXElement,
-  type JSXOpeningElement,
-  type JSXClosingElement,
-  type Identifier,
-} from "@swc/core";
+import { jsxElement } from "./ast";
 
 type Values = {
   accessToken: string;
@@ -122,8 +117,6 @@ function traverseNode<N extends Node>(
   specific?.exit?.(node, parentNode);
   visitor.All?.exit?.(node, parentNode);
 }
-
-
 
 function transformNodeToAst(nodes: Node[], ast: JSXElement[]): JSXElement[] {
   for (const node of nodes) {
